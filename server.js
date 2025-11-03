@@ -14,14 +14,14 @@ app.use((req, res, next) => {
 });
 
 // Database setup (to be updated with MongoDB Atlas URI)
-const uri = "YOUR_MONGODB_ATLAS_URI";
+const uri = "mongodb+srv://fuglymale:bridge2far011125@aslmongo.ecbeznx.mongodb.net/?appName=aslmongo";
 const client = new MongoClient(uri);
 
 let db;
 async function connectDB() {
   try {
     await client.connect();
-    db = client.db("cw1_database");
+    db = client.db("asl_database");
     console.log("Connected to MongoDB");
   } catch (err) {
     console.error("Database connection failed:", err);
@@ -31,7 +31,7 @@ connectDB();
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("Express backend is running correctly ✅");
+  res.send("Express backend is running correctly");
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
