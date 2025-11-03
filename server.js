@@ -1,5 +1,6 @@
 import express from "express";
 import { MongoClient, ObjectId } from "mongodb";
+import lessonsRouter from "./routes/lessons.js"; // Route for /lessons
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -7,13 +8,16 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 
+// Route connection
+app.use("/lessons", lessonsRouter);
+
 // Baseline request logger
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url} at ${new Date().toISOString()}`);
   next();
 });
 
-// Database setup (to be updated with MongoDB Atlas URI)
+// Database setup (MongoDB Atlas Connection)
 const uri = "mongodb+srv://fuglymale:bridge2far011125@aslmongo.ecbeznx.mongodb.net/?appName=aslmongo";
 const client = new MongoClient(uri);
 
