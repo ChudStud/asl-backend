@@ -44,4 +44,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+
+// GET /orders — view all orders
+router.get("/", async (req, res) => {
+  try {
+    const orders = await db.collection("orders").find({}).toArray();
+    res.status(200).json(orders);
+  } catch (err) {
+    console.error("Error fetching orders:", err);
+    res.status(500).json({ error: "Failed to fetch orders" });
+  }
+});
+
+
 export default router;
