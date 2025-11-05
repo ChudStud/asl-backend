@@ -1,6 +1,8 @@
 import express from "express";
 import { MongoClient, ObjectId } from "mongodb";
 import lessonsRouter from "./routes/lessons.js"; // Route for /lessons
+import ordersRouter from "./routes/orders.js";
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,6 +12,8 @@ app.use(express.json());
 
 // Route connection
 app.use("/lessons", lessonsRouter);
+app.use("/orders", ordersRouter);
+
 
 // Baseline request logger
 app.use((req, res, next) => {
