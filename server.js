@@ -1,31 +1,26 @@
+// Import dependencies
 import express from "express";
-import { MongoClient, ObjectId } from "mongodb";
-import lessonsRouter from "./routes/lessons.js"; // Route for /lessons
+import path from "path";
+import { MongoClient } from "mongodb";
+import lessonsRouter from "./routes/lessons.js";
 import ordersRouter from "./routes/orders.js";
+import logger from "./middleware/logger.js";
+import staticFiles from "./middleware/staticFiles.js";
 
-
+// Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json());
+// Middleware setup
+app.use(express.json());   // Parse JSON requests
+app.use(logger);           // Custom logger middleware
+app.use("/images", staticFiles); // Static file middleware for lesson images
 
-// Route connection
-app.use("/lessons", lessonsRouter);
-app.use("/orders", ordersRouter);
-
-
-// Baseline request logger
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url} at ${new Date().toISOString()}`);
-  next();
-});
-
-// Database setup (MongoDB Atlas Connection)
+// Database setup (MongoDB Atlas)
 const uri = "mongodb+srv://fuglymale:bridge2far011125@aslmongo.ecbeznx.mongodb.net/?appName=aslmongo";
 const client = new MongoClient(uri);
-
 let db;
+
 async function connectDB() {
   try {
     await client.connect();
@@ -37,9 +32,19 @@ async function connectDB() {
 }
 connectDB();
 
-// Test route
+// Route connections
+app.use("/lessons", lessonsRouter);
+app.use("/orders", ordersRouter);
+
+// Default route
 app.get("/", (req, res) => {
-  res.send("Express backend is running correctly");
+  res.send("Express backend is running correctly ✅");
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+// Export database
+export { db };

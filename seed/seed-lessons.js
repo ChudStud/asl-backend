@@ -22,7 +22,7 @@ const LESSONS = [
 async function run() {
   try {
     await client.connect();
-    const db = client.db("asl_database"); // ✅ Database name
+    const db = client.db("asl_database"); // Database name
     const Lessons = db.collection("lessons");
 
     // Remove any existing lessons to avoid duplicates
