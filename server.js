@@ -1,6 +1,7 @@
 // Import dependencies
 import express from "express";
 import path from "path";
+import cors from "cors";
 import { MongoClient } from "mongodb";
 import lessonsRouter from "./routes/lessons.js";
 import ordersRouter from "./routes/orders.js";
@@ -12,6 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware setup
+app.use(cors()); // Implementation of CORS
 app.use(express.json());   // Parse JSON requests
 app.use(logger);           // Custom logger middleware
 app.use("/images", staticFiles); // Static file middleware for lesson images
